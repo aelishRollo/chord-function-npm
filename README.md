@@ -14,8 +14,19 @@ I've loved solving complex problems since I was a child. This love grew through 
 
 See my website for more information!
 
-<h1 align="center">Chord Function API</h1>
-<p>Welcome to the Chord Function API! This API allows you to determine the chord function based on the key center, chord root, and chord quality.</p>
+<h1 align="center">Chord Function Calculator (NPM Package)</h1>
+
+Chord Function Calculator is a powerful and intuitive npm package designed for musicians, composers, and developers working with music theory. This package enables users to effortlessly determine the chord function based on the key center, chord root, and chord quality.
+
+<h2>Key Features</h2>
+<ul>
+  <li><strong>Accurate Chord Function Calculation</strong>: Determine the chord function from the key center, chord root, and chord quality.</li>
+  <li><strong>Wide Compatibility</strong>: Supports various chord qualities, including Major, Minor, Augmented, Diminished, and extended chords like Major7 and Minor7.</li>
+  <li><strong>Easy Integration</strong>: Seamlessly integrate into any JavaScript or Node.js project with a simple installation process.</li>
+  <li><strong>Robust Testing</strong>: Developed with a test-driven approach to ensure reliability and stability.</li>
+</ul>
+
+
 <h2>How to Use</h2>
 <p>To use the API, make a POST request to the following URL:</p>
 <pre><code>https://chord-function-calculator-03b3fc20902a.herokuapp.com/API/:keyCenter/:chordRoot/:quality</code></pre>
