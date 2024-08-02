@@ -1,13 +1,13 @@
 {
-  "name": "negative-harmony",
+  "name": "chord-function-calculator",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "chordFunctions.js",
   "scripts": {
   "test": "jest"
 },
-  "author": "",
+  "author": "Alec Rollison",
   "license": "ISC",
-  "description": "",
+  "description": "Calculate chord functions based on key center, chord root, and chord quality.",
   "dependencies": {
     "express": "^4.19.2"
   },
