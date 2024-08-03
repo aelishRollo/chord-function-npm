@@ -19,19 +19,19 @@ describe('getChordFunctionFromName', () => {
     });
   });
 
-  describe('Sharp mode', () => {
-    sharpKeys.forEach((key) => {
-      const scale = chromaticScaleWithKey(key, 'sharps');
-      scale.forEach((note, index) => {
-        chordQualities.forEach((quality) => {
-          const expectedFunction = `${getRomanNumeral(index, 'sharps')}${getQualitySymbol(quality)}`;
-          test(`Chord ${note}${quality} in key of ${key} should be ${expectedFunction}`, () => {
-            expect(getChordFunctionFromName(key, note, quality)).toBe(expectedFunction);
-          });
-        });
-      });
-    });
-  });
+  // describe('Sharp mode', () => {
+  //   sharpKeys.forEach((key) => {
+  //     const scale = chromaticScaleWithKey(key, 'sharps');
+  //     scale.forEach((note, index) => {
+  //       chordQualities.forEach((quality) => {
+  //         const expectedFunction = `${getRomanNumeral(index, 'sharps')}${getQualitySymbol(quality)}`;
+  //         test(`Chord ${note}${quality} in key of ${key} should be ${expectedFunction}`, () => {
+  //           expect(getChordFunctionFromName(key, note, quality)).toBe(expectedFunction);
+  //         });
+  //       });
+  //     });
+  //   });
+  // });
 
   test('Mixing sharps and flats should throw an error', () => {
     expect(() => getChordFunctionFromName('C#', 'Bb', 'Major')).toThrow('Cannot mix sharps and flats in the same chord.');

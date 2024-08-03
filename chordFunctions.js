@@ -35,11 +35,11 @@ const chordQualityMap = {
 };
 
 function convertSharpToFlat(note) {
-  return sharpToFlatMap[note] || note.toUpperCase();
+  return sharpToFlatMap[note] || note[0].toUpperCase();
 }
 
 function convertFlatToSharp(note) {
-  return flatToSharpMap[note] || note.toUpperCase();
+  return flatToSharpMap[note] || note[0].toUpperCase();
 }
 
 function detectMode(key, chordRoot) {
@@ -128,6 +128,6 @@ function getChordFunctionFromName(key, chordRoot, chordQuality) {
 }
 
 // Test case
-console.log(getChordFunctionFromName('B', 'F#', 'HalfDiminished'));
+console.log(getChordFunctionFromName('B', 'Bb', 'Sus2'));
 
 module.exports = { getChordFunctionFromName };
