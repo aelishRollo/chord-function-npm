@@ -38,6 +38,10 @@ function convertSharpToFlat(note) {
   return sharpToFlatMap[note] || note;
 }
 
+function convertFlatToSharp(note) {
+  return flatToSharpMap[note] || note;
+}
+
 
 function detectMode(key, chordRoot) {
   const hasSharp = /#/.test(key) || /#/.test(chordRoot);
@@ -74,8 +78,8 @@ function getChordFunctionFromName(key, chordRoot, chordQuality) {
       console.log(`Converted key (flats mode): ${key}`);
       console.log(`Converted chordRoot (flats mode): ${chordRoot}`);
     } else {
-      key = decodeURIComponent(key[0].toUpperCase());
-      chordRoot = decodeURIComponent(chordRoot.toUpperCase());
+      key = convertFlatToSharp(key);
+      chordRoot = decodeURIComponent(chordRoot);
       console.log(`Converted key (sharps mode): ${key}`);
       console.log(`Converted chordRoot (sharps mode): ${chordRoot}`);
     }
@@ -125,6 +129,7 @@ function getChordFunctionFromName(key, chordRoot, chordQuality) {
 }
 
 // Test case
-console.log(getChordFunctionFromName('B', 'Bb', 'Sus2'));
+console.log(getChordFunctionFromName('F#', 'D#', 'Sus2'));
+
 
 module.exports = { getChordFunctionFromName };
