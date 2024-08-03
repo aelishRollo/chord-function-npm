@@ -129,7 +129,7 @@ function getChordFunctionFromName(key, chordRoot, chordQuality) {
 }
 
 // Test case
-console.log(getChordFunctionFromName('F#', 'D#', 'Sus2'));
+console.log(getChordFunctionFromName('B', 'A', 'Sus2'));
 
 
 module.exports = { getChordFunctionFromName };
