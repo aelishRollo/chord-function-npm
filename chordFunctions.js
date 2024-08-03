@@ -1,5 +1,8 @@
-const chromaticScale = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
-const romanNumerals = ['I', 'bII', 'II', 'bIII', 'III', 'IV', 'bV', 'V', 'bVI', 'VI', 'bVII', 'VII'];
+const chromaticScaleFlats = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
+const romanNumeralsFlats = ['I', 'bII', 'II', 'bIII', 'III', 'IV', 'bV', 'V', 'bVI', 'VI', 'bVII', 'VII'];
+
+const chromaticScaleSharps = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+const romanNumeralsSharps = ['I', '#I', 'II', '#II', 'III', 'IV', '#IV', 'V', '#V', 'VI', '#VI', 'VII'];
 
 const sharpToFlatMap = {
   'C#': 'Db', 'c#': 'Db',
@@ -7,6 +10,14 @@ const sharpToFlatMap = {
   'F#': 'Gb', 'f#': 'Gb',
   'G#': 'Ab', 'g#': 'Ab',
   'A#': 'Bb', 'a#': 'Bb'
+};
+
+const flatToSharpMap = {
+  'Db': 'C#', 'db': 'C#',
+  'Eb': 'D#', 'eb': 'D#',
+  'Gb': 'F#', 'gb': 'F#',
+  'Ab': 'G#', 'ab': 'G#',
+  'Bb': 'A#', 'bb': 'A#'
 };
 
 const chordQualityMap = {
@@ -27,20 +38,64 @@ function convertSharpToFlat(note) {
   return sharpToFlatMap[note] || note.toUpperCase();
 }
 
+function convertFlatToSharp(note) {
+  return flatToSharpMap[note] || note.toUpperCase();
+}
+
+function detectMode(key, chordRoot) {
+  const hasSharp = /#/.test(key) || /#/.test(chordRoot);
+  const hasFlat = /b/.test(key) || /b/.test(chordRoot);
+  if (hasSharp && hasFlat) {
+    throw new Error('Cannot mix sharps and flats in the same chord.');
+  }
+  return hasSharp ? 'sharps' : 'flats';
+}
+
 function getChordFunctionFromName(key, chordRoot, chordQuality) {
   try {
-    if (!key || !chordRoot || !chordQuality) {
-      throw new Error('Key, chord root, and quality are required');
+    console.log('\n--- getChordFunctionFromName Start ---');
+    console.log(`Input key: ${key}`);
+    console.log(`Input chordRoot: ${chordRoot}`);
+    console.log(`Input chordQuality: ${chordQuality}`);
+
+    if (!key) {
+      throw new Error('Key is required');
+    }
+    if (!chordRoot) {
+      throw new Error('Chord root is required');
+    }
+    if (!chordQuality) {
+      throw new Error('Chord quality is required');
     }
 
-    key = convertSharpToFlat(key);
-    chordRoot = convertSharpToFlat(decodeURIComponent(chordRoot));
+    const mode = detectMode(key, chordRoot);
+    console.log(`Detected mode: ${mode}`);
+
+    if (mode === 'flats') {
+      key = convertSharpToFlat(key);
+      chordRoot = convertSharpToFlat(decodeURIComponent(chordRoot));
+      console.log(`Converted key (flats mode): ${key}`);
+      console.log(`Converted chordRoot (flats mode): ${chordRoot}`);
+    } else {
+      key = decodeURIComponent(key.toUpperCase());
+      chordRoot = decodeURIComponent(chordRoot.toUpperCase());
+      console.log(`Converted key (sharps mode): ${key}`);
+      console.log(`Converted chordRoot (sharps mode): ${chordRoot}`);
+    }
+
     chordQuality = chordQuality.charAt(0).toUpperCase() + chordQuality.slice(1).toLowerCase();
+    console.log(`Formatted chordQuality: ${chordQuality}`);
 
     const rootPattern = /^[A-G][b#]?$/i;
     if (!rootPattern.test(chordRoot)) {
       throw new Error('Invalid chord root');
     }
+
+    const chromaticScale = mode === 'sharps' ? chromaticScaleSharps : chromaticScaleFlats;
+    const romanNumerals = mode === 'sharps' ? romanNumeralsSharps : romanNumeralsFlats;
+
+    console.log(`Using chromaticScale: ${chromaticScale}`);
+    console.log(`Using romanNumerals: ${romanNumerals}`);
 
     if (!chromaticScale.includes(key)) {
       throw new Error('Invalid key');
@@ -55,13 +110,24 @@ function getChordFunctionFromName(key, chordRoot, chordQuality) {
     const rootIndex = chromaticScale.indexOf(chordRoot);
     const keyIndex = chromaticScale.indexOf(key);
 
-    const degree = (rootIndex - keyIndex + chromaticScale.length) % chromaticScale.length;
+    console.log(`rootIndex: ${rootIndex}`);
+    console.log(`keyIndex: ${keyIndex}`);
 
-    return `${romanNumerals[degree]}${chordQualityMap[chordQuality]}`;
+    const degree = (rootIndex - keyIndex + chromaticScale.length) % chromaticScale.length;
+    console.log(`Calculated degree: ${degree}`);
+
+    const result = `${romanNumerals[degree]}${chordQualityMap[chordQuality]}`;
+    console.log(`Resulting chord function: ${result}`);
+    console.log('--- getChordFunctionFromName End ---\n');
+
+    return result;
   } catch (error) {
     console.error(`Error in getChordFunctionFromName: ${error.message}`);
     throw error;
   }
 }
+
+// Test case
+console.log(getChordFunctionFromName('B', 'F', 'Sus4'));
 
 module.exports = { getChordFunctionFromName };
