@@ -46,7 +46,7 @@ function getChordFunctionFromName(key, chordRoot, chordQuality) {
       throw new Error('Invalid key');
     }
     if (!chromaticScale.includes(chordRoot)) {
-      throw new Error('Invalid chord root note');
+      throw new Error('Invalid chord root');
     }
     if (!Object.keys(chordQualityMap).includes(chordQuality)) {
       throw new Error('Invalid chord quality');

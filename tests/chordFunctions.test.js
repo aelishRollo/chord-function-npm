@@ -10,29 +10,39 @@ describe('getChordFunctionFromName', () => {
 
     scale.forEach((note, index) => {
       chordQualities.forEach((quality) => {
-        const chordName = `${note}${quality}`;
         const expectedFunction = `${romanNumerals[index]}${getQualitySymbol(quality)}`;
-        test(`Chord ${chordName} in key of ${key} should be ${expectedFunction}`, () => {
-          expect(getChordFunctionFromName(chordName, key)).toBe(expectedFunction);
+        test(`Chord ${note}${quality} in key of ${key} should be ${expectedFunction}`, () => {
+          expect(getChordFunctionFromName(key, note, quality)).toBe(expectedFunction);
         });
       });
     });
   });
 
-  test('Invalid chord name should throw an error', () => {
-    expect(() => getChordFunctionFromName('H7', 'C')).toThrow('Invalid chord name format');
+  test('Handling of sharp notes', () => {
+    expect(getChordFunctionFromName('C', 'F#', 'Major')).toBe('bV');
+    expect(getChordFunctionFromName('G', 'C#', 'Major7')).toBe('bVmaj7');
+  });
+
+  test('URL-encoded inputs', () => {
+    expect(getChordFunctionFromName('C', 'F%23', 'Major')).toBe('bV');
+  });
+
+  test('Invalid chord root should throw an error', () => {
+    expect(() => getChordFunctionFromName('C', 'H', 'Major')).toThrow('Invalid chord root');
   });
 
   test('Invalid key should throw an error', () => {
-    expect(() => getChordFunctionFromName('CMajor', 'H')).toThrow('Invalid root note or key');
+    expect(() => getChordFunctionFromName('H', 'C', 'Major')).toThrow('Invalid key');
   });
 
-  test('Missing chord name should throw an error', () => {
-    expect(() => getChordFunctionFromName(null, 'C')).toThrow('Chord name and key are required');
+  test('Invalid chord quality should throw an error', () => {
+    expect(() => getChordFunctionFromName('C', 'G', 'InvalidQuality')).toThrow('Invalid chord quality');
   });
 
-  test('Missing key should throw an error', () => {
-    expect(() => getChordFunctionFromName('CMajor', null)).toThrow('Chord name and key are required');
+  test('Missing parameters should throw an error', () => {
+    expect(() => getChordFunctionFromName(null, 'C', 'Major')).toThrow('Key, chord root, and quality are required');
+    expect(() => getChordFunctionFromName('C', null, 'Major')).toThrow('Key, chord root, and quality are required');
+    expect(() => getChordFunctionFromName('C', 'G', null)).toThrow('Key, chord root, and quality are required');
   });
 });
 
