@@ -28,7 +28,7 @@ const chordQualityMap = {
   'Major7': 'maj7',
   'Minor7': 'm7',
   'Dominant7': '7',
-  'HalfDiminished': 'ø',
+  'Halfdiminished': 'ø',
   'Diminished7': '°7',
   'Sus4': 'sus4',
   'Sus2': 'sus2'
@@ -128,6 +128,6 @@ function getChordFunctionFromName(key, chordRoot, chordQuality) {
 }
 
 // Test case
-console.log(getChordFunctionFromName('B', 'F', 'Sus4'));
+console.log(getChordFunctionFromName('B', 'F#', 'HalfDiminished'));
 
 module.exports = { getChordFunctionFromName };
