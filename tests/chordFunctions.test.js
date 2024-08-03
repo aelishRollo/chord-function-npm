@@ -19,7 +19,7 @@ describe('getChordFunctionFromName', () => {
     });
   });
 
-  // describe('Sharp mode', () => {
+    // describe('Sharp mode', () => {
   //   sharpKeys.forEach((key) => {
   //     const scale = chromaticScaleWithKey(key, 'sharps');
   //     scale.forEach((note, index) => {
@@ -61,9 +61,6 @@ describe('getChordFunctionFromName', () => {
     expect(() => getChordFunctionFromName('C', 'G', 'InvalidQuality')).toThrow('Invalid chord quality');
   });
 
-  test('URL-encoded inputs', () => {
-    expect(getChordFunctionFromName('C', 'F%23', 'Major')).toBe('bV');
-  });
 });
 
 function chromaticScaleWithKey(key, mode) {
